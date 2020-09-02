@@ -1,0 +1,20 @@
+{
+  "name": "ld",
+  "version": "1.0.0",
+  "description": "Serverless with dynamodb",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.741.0",
+    "dev": "^0.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [
+    "acdl"
+  ],
+  "author": "Sem",
+  "license": "ISC"
+}

@@ -1,0 +1,32 @@
+<!-- dialog-box.component.html -->
+<div >
+  <form (ngSubmit)="enrolment.form.valid && doAction()" #enrolment="ngForm">
+    <div class="d-flex flex-column align-content-around"  >
+      <div class="form-row">
+        <div>
+          <mat-form-field class="mx-5" >
+            <input name="studentId"  placeholder="Student ID" matInput [(ngModel)]="local_data.studentId" #studentId="ngModel" required>
+          </mat-form-field>
+          <div *ngIf="enrolment.submitted && studentId.invalid" class="d-block invalid-feedback text-center">
+            <div *ngIf="studentId.errors.required">Student ID is required</div>
+          </div>
+        </div>
+
+        <div>
+          <mat-form-field class="mx-5" >
+            <input name="classId" placeholder="Class ID" matInput [(ngModel)]="local_data.classId" #classId = "ngModel" required>
+          </mat-form-field>
+          <div *ngIf="enrolment.submitted && classId.invalid" class="d-block invalid-feedback text-center">
+            <div *ngIf="classId.errors.required">Class ID is required</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div mat-dialog-actions class="d-flex justify-content-around">
+      <button mat-button (click)="closeDialog()" mat-flat-button color="primary">Cancel</button>
+      <button mat-button type="submit" mat-raised-button color="warn">Add</button>
+    </div>
+  </form>
+</div>
+

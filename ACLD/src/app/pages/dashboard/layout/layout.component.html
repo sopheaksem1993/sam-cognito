@@ -1,0 +1,18 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary" class="app-header">
+  <div>Welcome to School Management System</div>
+  <span class="nav-tool-items">
+    <a mat-button mat-raised-button (click)="signOut()" routerLinkActive="active" class="btn-logout text-decoration-none">Log out</a>
+  </span>
+</mat-toolbar>
+
+<div class="mt-5">
+   <mat-tab-group class="d-flex justify-content-around" (selectedTabChange)="selectTab($event)">
+     <mat-tab label="Student Management"></mat-tab>
+     <mat-tab label="Enrolment Management"></mat-tab>
+     <mat-tab label="Class Management"></mat-tab>
+     <mat-tab label="Contact Info Management"></mat-tab>
+   </mat-tab-group>
+</div>
+
+<router-outlet></router-outlet>

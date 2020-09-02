@@ -1,0 +1,225 @@
+service: ACDL
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-2
+  environment:
+    DYNAMODB_NAMESPACE: ${opt:stage, "dev"}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "*"
+
+functions:
+
+  ## Student API
+  createStudent:
+    handler: src/student.create
+    events:
+      - http:
+          method: POST
+          path: /api/student
+          cors: true
+  getStudents:
+    handler: src/student.gets
+    events:
+      - http:
+          method: GET
+          path: /api/students
+          cors: true
+  updateStudent:
+    handler: src/student.update
+    events:
+      - http:
+          method: PUT
+          path: /api/student/{id}
+          cors: true
+
+  deleteStudent:
+    handler: src/student.delete
+    events:
+      - http:
+          method: DELETE
+          path: /api/student/{id}
+          cors: true
+
+
+  ## Enrolment API
+  createEnrolment:
+    handler: src/enrolment.create
+    events:
+      - http:
+          method: POST
+          path: /api/enrolment
+          cors: true
+  getEnrolments:
+    handler: src/enrolment.gets
+    events:
+      - http:
+          method: GET
+          path: /api/enrolments
+          cors: true
+  updateEnrolment:
+    handler: src/enrolment.update
+    events:
+      - http:
+          method: PUT
+          path: /api/enrolment/{id}
+          cors: true
+
+  deleteEnrolment:
+    handler: src/enrolment.delete
+    events:
+      - http:
+          method: DELETE
+          path: /api/enrolment/{id}
+          cors: true
+
+
+
+  ## Class API
+  createClass:
+    handler: src/class.create
+    events:
+      - http:
+          method: POST
+          path: /api/class
+          cors: true
+  getClasses:
+    handler: src/class.gets
+    events:
+      - http:
+          method: GET
+          path: /api/classes
+          cors: true
+  updateClass:
+    handler: src/class.update
+    events:
+      - http:
+          method: PUT
+          path: /api/class/{id}
+          cors: true
+
+  deleteClass:
+    handler: src/class.delete
+    events:
+      - http:
+          method: DELETE
+          path: /api/class/{id}
+          cors: true
+
+  ## Contact API
+  createContact:
+    handler: src/contact.create
+    events:
+      - http:
+          method: POST
+          path: /api/contact
+          cors: true
+  getContacts:
+    handler: src/contact.gets
+    events:
+      - http:
+          method: GET
+          path: /api/contacts
+          cors: true
+  updateContact:
+    handler: src/contact.update
+    events:
+      - http:
+          method: PUT
+          path: /api/contact/{id}
+          cors: true
+
+  deleteContact:
+    handler: src/contact.delete
+    events:
+      - http:
+          method: DELETE
+          path: /api/contact/{id}
+          cors: true
+
+
+
+  ## Test API
+  ping:
+    handler: src/helper.ping
+    events:
+      - http:
+          method: GET
+          path: /api/ping
+          cors: true
+
+
+resources:
+  Resources:
+
+    StudentsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: studentId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: studentId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: acdl-${self:provider.environment.DYNAMODB_NAMESPACE}-students
+
+    EnrolmentsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: enrolmentId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: enrolmentId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: acdl-${self:provider.environment.DYNAMODB_NAMESPACE}-enrolments
+
+    ClassesDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: classId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: classId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: acdl-${self:provider.environment.DYNAMODB_NAMESPACE}-classes
+
+    ContactsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: contactId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: contactId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: acdl-${self:provider.environment.DYNAMODB_NAMESPACE}-contacts

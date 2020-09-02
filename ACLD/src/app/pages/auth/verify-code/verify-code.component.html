@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center justify-content-center h-100">
+  <form [formGroup]="confirmForm" class="d-flex flex-column">
+    <h2>Verify your email address</h2>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Confirmation Code" type="text" formControlName="code" required>
+      <mat-hint *ngIf="!codeInput.value">Enter the confirmation code emailed to you</mat-hint>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="confirmCode()" class="mt-2">Confirm</button>
+    <p class="mt-2">Didn't receive a code? <a href="javascript:void(null)" (click)="sendAgain()">Send again</a></p>
+  </form>
+</div>
